@@ -1,0 +1,5 @@
+
+curl http://localhost:8888/cloud/sugarcrm/hello
+
+curl http://localhost:8888/cloud/sugarcrm/webmail
+
