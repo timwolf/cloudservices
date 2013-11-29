@@ -1,3 +1,5 @@
+<?php
+
 /**
  * determines if a passed string matches the criteria for a Sugar GUID
  * @param string $guid

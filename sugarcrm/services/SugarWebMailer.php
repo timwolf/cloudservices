@@ -34,6 +34,7 @@ class SugarWebMailer extends SugarServiceApi
         $result = array(
             "req"    => 'in (webmail/sendMail) SugarWebMailer - in Method: sendMail',
             "params" => $params,
+            "guid"   => create_guid(),
             "data"   => $this->db_sample()
         );
         return $result;
@@ -44,6 +45,7 @@ class SugarWebMailer extends SugarServiceApi
          $result = array(
             "req"    => 'in (webmail/sendMail) SugarWebMailer - in Method: getSendRequestStatus',
             "params" => $params,
+            "guid"   => create_guid(),
             "data"   => $this->db_sample()
         );
         return $result;
@@ -54,6 +56,7 @@ class SugarWebMailer extends SugarServiceApi
         $result = array(
             "req"    => 'in (webmail/sendMail) SugarWebMailer - in Method: listSendRequestStatus',
             "params" => $params,
+            "guid"   => create_guid(),
             "data"   => $this->db_sample()
         );
         return $result;
@@ -65,7 +68,7 @@ class SugarWebMailer extends SugarServiceApi
         $db   = $this->db;
         $rows = array();
 
-        $sql = "SELECT * from contacts";
+        $sql = "SELECT * from marketingcampaigns";
         $sql .= " WHERE id != 'baloney'";
         $sql .= " ORDER BY id LIMIT 1";
         $result = mysql_query($sql, $db);
