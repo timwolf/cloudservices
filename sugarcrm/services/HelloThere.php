@@ -96,6 +96,7 @@ class HelloThere extends SugarServiceApi
         $result = array(
             "req"    => 'in HelloThere - in Method: thirdPostMethod',
             "params" => $params,
+            "guid"   => create_guid(),
             "data"   => $this->db_sample_1()
         );
         return $result;
