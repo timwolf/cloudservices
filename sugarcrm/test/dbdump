@@ -1,0 +1,1 @@
+ mysqldump -uponyexpress -pcampaigns cloudservices $1 $2

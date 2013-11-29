@@ -6,9 +6,9 @@ function getServiceDatabaseConnection()
   {
     $dbhost     = "localhost";
 
-    $dbname     = "sugar70";
-    $dbuser     = "tjwolf";
-    $dbpassword = "dragon";
+    $dbname     = "cloudservices";
+    $dbuser     = "ponyexpress";
+    $dbpassword = "campaigns";
 
     $db = mysql_pconnect($dbhost, $dbuser, $dbpassword);
     mysql_select_db($dbname,$db);

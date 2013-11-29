@@ -19,6 +19,7 @@ define("BASE_PATH", "/cloud/sugarcrm");
 define("SERVICE_API_CLASS", "SugarServiceApi");
 
 require_once("include/common.php");
+require_once("include/guid.php");
 require_once("include/commonsql.php");
 
 require_once("api/SugarApiException.php");

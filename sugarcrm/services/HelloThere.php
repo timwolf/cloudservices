@@ -51,6 +51,7 @@ class HelloThere extends SugarServiceApi
         $result = array(
             "req"    => 'in HelloThere - in Method: firstGetMethod',
             "params" => $params,
+            "guid"   => create_guid(),
             "data"   => $this->db_sample_1()
         );
        return $result;
@@ -62,6 +63,7 @@ class HelloThere extends SugarServiceApi
         $result = array(
             "req"    => 'in HelloThere - in Method: secondGetMethod',
             "params" => $params,
+            "guid"   => create_guid(),
             "data"   => $this->db_sample_2()
         );
         return $result;
@@ -72,6 +74,7 @@ class HelloThere extends SugarServiceApi
         $result = array(
             "req"    => 'in HelloThere - in Method: firstPostMethod',
             "params" => $params,
+            "guid"   => create_guid(),
             "data"   => $this->db_sample_1()
         );
         return $result;
@@ -82,6 +85,7 @@ class HelloThere extends SugarServiceApi
         $result = array(
             "req"    => 'in HelloThere - in Method: secondPostMethod',
             "params" => $params,
+            "guid"   => create_guid(),
             "data"   => $this->db_sample_2()
         );
         return $result;
@@ -103,7 +107,7 @@ class HelloThere extends SugarServiceApi
         $db   = $this->db;
         $rows = array();
 
-        $sql = "SELECT * from contacts";
+        $sql = "SELECT * from marketingcampaigns";
         $sql .= " WHERE id != 'baloney'";
         $sql .= " ORDER BY id LIMIT 1";
         $result = mysql_query($sql, $db);
@@ -123,7 +127,7 @@ class HelloThere extends SugarServiceApi
         $db   = $this->db;
         $rows = array();
 
-        $sql = "SELECT * from contacts";
+        $sql = "SELECT * from marketingcampaigns";
         $sql .= " WHERE id != 'baloney'";
         $sql .= " ORDER BY id LIMIT 5";
         $result = mysql_query($sql, $db);
