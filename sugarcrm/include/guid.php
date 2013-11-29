@@ -56,3 +56,15 @@ function create_guid_section($characters)
 
     return $return;
 }
+
+
+function ensure_length(&$string, $length)
+{
+    $strlen = strlen($string);
+    if ($strlen < $length) {
+        $string = str_pad($string,$length,"0");
+    } elseif ($strlen > $length) {
+        $string = substr($string, 0, $length);
+    }
+}
+
