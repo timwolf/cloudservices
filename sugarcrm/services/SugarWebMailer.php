@@ -31,51 +31,52 @@ class SugarWebMailer extends SugarServiceApi
 
     public function sendMail($params)
     {
-        printf("\n\nGET .... Hey - I am in (webmail/sendMail) SugarWebMailer - in Method: sendMail\n");
-        printf("Number of params: %d\n", count($params));
-        print_r($params);
-
-        printf("\n\n--- SAMPLE ----\n");
-        $this->db_sample();
+        $result = array(
+            "req"    => 'in (webmail/sendMail) SugarWebMailer - in Method: sendMail',
+            "params" => $params,
+            "data"   => $this->db_sample()
+        );
+        return $result;
     }
 
     public function getSendRequestStatus($params)
     {
-        printf(
-            "\n\nGET .... Hey - I am in (webmail/status/{request_id}) SugarWebMailer - in Method: getSendRequestStatus\n"
+         $result = array(
+            "req"    => 'in (webmail/sendMail) SugarWebMailer - in Method: getSendRequestStatus',
+            "params" => $params,
+            "data"   => $this->db_sample()
         );
-        printf("Number of params: %d\n", count($params));
-        print_r($params);
-
-        printf("\n\n--- SAMPLE ----\n");
-        $this->db_sample();
+        return $result;
     }
 
     public function listSendRequestStatus($params)
     {
-        printf("\n\nGET .... Hey - I am in (webmail/status) SugarWebMailer - in Method: listSendRequestStatus\n");
-        printf("Number of params: %d\n", count($params));
-        print_r($params);
-
-        printf("\n\n--- SAMPLE ----\n");
-        $this->db_sample();
+        $result = array(
+            "req"    => 'in (webmail/sendMail) SugarWebMailer - in Method: listSendRequestStatus',
+            "params" => $params,
+            "data"   => $this->db_sample()
+        );
+        return $result;
     }
 
 
     private function db_sample()
     {
-        $db = $this->db;
+        $db   = $this->db;
+        $rows = array();
 
         $sql = "SELECT * from contacts";
-        $sql .= " WHERE id != 'baloney' LIMIT 1";
+        $sql .= " WHERE id != 'baloney'";
+        $sql .= " ORDER BY id LIMIT 1";
         $result = mysql_query($sql, $db);
-        if ($result && ($row = mysql_fetch_array($result, MYSQL_ASSOC))) {
+        if ($result) {
+            while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+                $rows[] = $row;
+            }
             mysql_free_result($result);
-            print_r($row);
-            return true;
+            //printf("ROWS=%d\n",count($rows));
         }
-        return false;
-
+        return $rows;
     }
 
 }

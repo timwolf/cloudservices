@@ -1,5 +1,9 @@
 
-curl http://localhost:8888/cloud/sugarcrm/hello
+curl http://localhost:8888/cloud/sugarcrm/hello/abc/bugs/123
 
-curl http://localhost:8888/cloud/sugarcrm/webmail
+curl http://campaigns.sugarcrmlabs.com/cloud/sugarcrm/hello/abc/bugs/123
 
+
+curl http://localhost:8888/cloud/sugarcrm/webmail   
+
+curl http://campaigns.sugarcrmlabs.com/cloud/sugarcrm/webmail   

@@ -1,6 +1,6 @@
 <?php
 
-define("DEBUG", true);
+define("DEBUG", false);
 
 $endpoints_map = array(
     //----
