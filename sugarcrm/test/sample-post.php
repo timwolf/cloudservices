@@ -1,23 +1,22 @@
 <?php
 include_once("sugar_api.php");
 
-$GLOBALS['config']['apiUrl'] = 'http://localhost:8888/cloud/sugarcrm';
+$GLOBALS['config']['apiUrl'] = 'http://campaigns.sugarcrmlabs.com/cloud/sugarcrm';  
+// $GLOBALS['config']['apiUrl'] = 'http://localhost:8888/cloud/sugarcrm';
 $method = "POST";
 $uri = '/hello/recipients/12345';
 
 $data= array(
 
-	"filter" => array(
-		array('last_name' => array('$starts' => 'Aaron') ),		
-	),
-											
-	"fields"	=> "first_name,last_name",
-	// "order_by"	=> "last_name:ASC,first_name:DESC",
-	"order_by"	=> "first_name:ASC",
-	"max_num" 	=> 15,
-	"offset" 	=> 0
+    "filter" => array(
+        array('last_name' => array('$starts' => 'Aaron')),
+    ),
+    "fields" => "first_name,last_name",
+    // "order_by"	=> "last_name:ASC,first_name:DESC",
+    "order_by" => "first_name:ASC",
+    "max_num" => 15,
+    "offset" => 0
 );
-
 
 printf("%s\n",indent(json_encode($data)));
 
