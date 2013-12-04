@@ -2,6 +2,8 @@
 
 define("DEBUG", false);
 
+define("CAPTURE_STDOUT", false);
+
 $endpoints_map = array(
     //----
     "GET:hello" => "HelloThere",
@@ -11,7 +13,9 @@ $endpoints_map = array(
 );
 
 
-ob_start();
+if (CAPTURE_STDOUT) {
+    ob_start();
+}
 
 //-----------------------------------------
 
@@ -224,23 +228,25 @@ try {
 
             $response = $obj->$methodName($args);
 
-            $ob_status = ob_get_status();
-            if (!empty($ob_status)) {
-                $output = ob_get_contents();
-                ob_end_clean();
+            if (CAPTURE_STDOUT) {
+                $ob_status = ob_get_status();
+                if (!empty($ob_status)) {
+                    $output = ob_get_contents();
+                    ob_end_clean();
 
-                if (!empty($output)) {
-                    $statusCode = 500;
-                    $message = "extraneous data sent to stdout";
-                    $result = array(
-                        "code" => $statusCode,
-                        "message" => $message,
-                        "data" => $output
-                    );
+                    if (!empty($output)) {
+                        $statusCode = 500;
+                        $message = "extraneous data sent to stdout";
+                        $result = array(
+                            "code" => $statusCode,
+                            "message" => $message,
+                            "data" => $output
+                        );
 
-                    header("HTTP/1.0 $statusCode");
-                    echo json_encode($result) . "\n";
-                    exit;
+                        header("HTTP/1.0 $statusCode");
+                        echo json_encode($result) . "\n";
+                        exit;
+                    }
                 }
             }
 
@@ -258,7 +264,9 @@ try {
         throw new SugarApiExceptionError("Rest Endpoint Not Found: " . $map_key);
     }
 } catch (SugarApiException $e) {
-    ob_end_clean();
+    if (CAPTURE_STDOUT) {
+        ob_end_clean();
+    }
 
     $statusCode = $e->getHttpCode();
     $message = $e->getMessage();
