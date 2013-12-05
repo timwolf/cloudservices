@@ -3,17 +3,10 @@
 //error_reporting(E_STRICT);
      
 include_once('cloud_api.php');
-include_once('guid.php'); 
+include_once('../util/util.php');
 
-function base64_encode_file($filename) {
-    if ($filename) {
-        $bin = fread(fopen($filename, 'r'), filesize($filename));
-        return base64_encode($bin); 
-    }
-}
-
-$GLOBALS['config']['apiUrl'] = 'http://campaigns.sugarcrmlabs.com/cloud/sugarcrm';  
-// $GLOBALS['config']['apiUrl'] = 'http://localhost:8888/cloud/sugarcrm'; 
+// $GLOBALS['config']['apiUrl'] = 'http://campaigns.sugarcrmlabs.com/cloud/sugarcrm';  
+$GLOBALS['config']['apiUrl'] = 'http://localhost:8888/cloud/sugarcrm'; 
 
 $text = <<<TEXTMESSAGE
 Hello  *|first_name|* *|last_name|*,
@@ -99,7 +92,7 @@ $pass = '3440112776';
 $from_name  = '';
 $from_email = 'noreply@redherring.net';
 $reply_to   = $from_email;
-$account_id  = 'ebdf3380-37f3-3017-1dbb-5294fe857ca6';
+$customer_id  = 'ebdf3380-37f3-3017-1dbb-5294fe857ca6';
 $campaign_id = 'db8432e4-5151-f1ca-44c9-5294fe721518';
 $unsubscribe_url = 'http://google.com';
 $x_headers = array();
@@ -113,7 +106,12 @@ $images = array(
 	),
 );
 
-$attachments = array(
+$attachments = array( 
+	array(
+		'name' =>  $cid,   								  			  			 // CID
+		'type' =>  'image/jpeg',          							  			 // image/png  image/jpeg  image/gif 
+		'content' =>  base64_encode_file('/Users/twolfe/images/superman.jpg'),   // base64_encoded   
+	),
     array(
 		'name' =>  'Email.pdf',								          // FileName
 		'type' =>  'text/plain',          							  //  
@@ -145,7 +143,7 @@ $html_body .= 'Tony<br />';
 $post_data = array(
 	'API-USER'		=> $user,
     'API-PASS'		=> $pass,
-	'ACCOUNT-ID'	=> $account_id,
+	'CUSTOMER-ID'	=> $customer_id,
 	'CAMPAIGN-ID'	=> $campaign_id,
 	'MERGE-FIELD-DELIMETERS' => $merge_field_delimiters,
 	'GLOBAL-MERGE-DATA'      => $global_merge_data, 

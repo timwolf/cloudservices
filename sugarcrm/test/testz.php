@@ -3,14 +3,7 @@
 //error_reporting(E_STRICT);
      
 include_once('cloud_api.php');
-include_once('../util/guid.php');
-
-function base64_encode_file($filename) {
-    if ($filename) {
-        $bin = fread(fopen($filename, 'r'), filesize($filename));
-        return base64_encode($bin); 
-    }
-}
+include_once('../util/util.php');
 
 // $GLOBALS['config']['apiUrl'] = 'http://campaigns.sugarcrmlabs.com/cloud/sugarcrm';  
 $GLOBALS['config']['apiUrl'] = 'http://localhost:8888/cloud/sugarcrm'; 
@@ -79,13 +72,18 @@ $recipient_merge_vars = array(
 );
 
 $recipients = array(
-	array('email' => 'twolf@sugarcrm.com', 'name' => 'Captain Kangaroo',  'merge-data' => array('Captain','Kangaroo', 	'Chicago', 		'Illinois',		'10/24/2014',	'9:15 AM',	'Robert Blake',		'Robert')),  
-	/*
-	array('email' => 'abc@yahoo.com', 'name' => 'Doctor Do Little', 	'merge-data' => array('Doctor', 'Do Little', 	'Milwaukee', 	'Wisconsin',	'8/12/2014',	'8:10 AM',	'Peter Jennings',	'Peter')),
-	array('email' => 'abc@yahoo.com', 'name' => 'Casper the Ghost', 	'merge-data' => array('Casper', 'Ghost', 		'Indianapolis', 'Indiana',		'7/24/2014',	'10:30 AM', 'Roger Rabbit', 	'Roger')),
-	array('email' => 'abc@yahoo.com', 'name' => 'Curly Howard', 		'merge-data' => array('Curly', 	'Howard', 		'Minneapolis', 	'Minnesota',	'9/3/2014',		'10:25 AM', 'Clark Kent',		'Clark')),
-	array('email' => 'abc@yahoo.com', 'name' => 'Moe Howard', 		'merge-data' => array('Moe', 	'Howard', 		'St. Paul', 	'Minnesota',	'11/16/2014',	'2:25 PM',	'Bruce Willis', 	'Bruce')),
+	array('email' => 'twolf@sugarcrm.com',		'name' => 'Captain Kangaroo',  'merge-data' => array('Captain','Kangaroo', 	'Chicago', 		'Illinois',		'10/24/2014',	'9:15 AM',	'Robert Blake',		'Robert')),   
+
+	array('email' => 'tim_wolf@webtribune.com',	'name' => 'Curly Howard', 	   'merge-data' => array('Curly', 	'Howard', 		'Minneapolis', 	'Minnesota',	'9/3/2014',		'10:25 AM', 'Clark Kent',		'Clark')),   
+  
+    /*       
+	array('email' => 'twolf@sugarcrm.com>',			'name' => 'Moe Howard', 	   'merge-data' => array('Moe', 	'Howard', 		'St. Paul', 	'Minnesota',	'11/16/2014',	'2:25 PM',	'Bruce Willis', 	'Bruce')), 
+      */
+
+  	/*   
 	array(''email' => abc@yahoo.com', 'name' => 'Larry Fine', 		'merge-data' => array('Larry', 	'Fine', 		'Rochester', 	'Minnesota',	'12/25/2014',	'5:15 PM',	'David Banner', 	'David')), 
+	array('email' => 'abc@yahoo.com', 'name' => 'Doctor Do Little', 	'merge-data' => array('Doctor', 'Do Little', 	'Milwaukee', 	'Wisconsin',	'8/12/2014',	'8:10 AM',	'Peter Jennings',	'Peter')),
+	array('email' => 'abc@yahoo.com', 'name' => 'Casper the Ghost', 	'merge-data' => array('Casper', 'Ghost', 		'Indianapolis', 'Indiana',		'7/24/2014',	'10:30 AM', 'Roger Rabbit', 	'Roger')),   
 	*/
 ); 
 
@@ -94,7 +92,7 @@ $pass = '3440112776';
 $from_name  = '';
 $from_email = 'noreply@redherring.net';
 $reply_to   = $from_email;
-$account_id  = 'ebdf3380-37f3-3017-1dbb-5294fe857ca6';
+$customer_id  = 'ebdf3380-37f3-3017-1dbb-5294fe857ca6';
 $campaign_id = 'db8432e4-5151-f1ca-44c9-5294fe721518';
 $unsubscribe_url = 'http://google.com';
 $x_headers = array();
@@ -108,7 +106,12 @@ $images = array(
 	),
 );
 
-$attachments = array(
+$attachments = array( 
+	array(
+		'name' =>  $cid,   								  			  			 // CID
+		'type' =>  'image/jpeg',          							  			 // image/png  image/jpeg  image/gif 
+		'content' =>  base64_encode_file('/Users/twolfe/images/superman.jpg'),   // base64_encoded   
+	),
     array(
 		'name' =>  'Email.pdf',								          // FileName
 		'type' =>  'text/plain',          							  //  
@@ -140,7 +143,7 @@ $html_body .= 'Tony<br />';
 $post_data = array(
 	'API-USER'		=> $user,
     'API-PASS'		=> $pass,
-	'ACCOUNT-ID'	=> $account_id,
+	'CUSTOMER-ID'	=> $customer_id,
 	'CAMPAIGN-ID'	=> $campaign_id,
 	'MERGE-FIELD-DELIMETERS' => $merge_field_delimiters,
 	'GLOBAL-MERGE-DATA'      => $global_merge_data, 
