@@ -12,8 +12,8 @@ function base64_encode_file($filename) {
     }
 }
 
-// $GLOBALS['config']['apiUrl'] = 'http://campaigns.sugarcrmlabs.com/cloud/sugarcrm';  
-$GLOBALS['config']['apiUrl'] = 'http://localhost:8888/cloud/sugarcrm'; 
+$GLOBALS['config']['apiUrl'] = 'http://campaigns.sugarcrmlabs.com/cloud/sugarcrm';  
+// $GLOBALS['config']['apiUrl'] = 'http://localhost:8888/cloud/sugarcrm'; 
 
 $text = <<<TEXTMESSAGE
 Hello  *|first_name|* *|last_name|*,
@@ -79,13 +79,18 @@ $recipient_merge_vars = array(
 );
 
 $recipients = array(
-	array('email' => 'twolf@sugarcrm.com', 'name' => 'Captain Kangaroo',  'merge-data' => array('Captain','Kangaroo', 	'Chicago', 		'Illinois',		'10/24/2014',	'9:15 AM',	'Robert Blake',		'Robert')),  
-	/*
-	array('email' => 'abc@yahoo.com', 'name' => 'Doctor Do Little', 	'merge-data' => array('Doctor', 'Do Little', 	'Milwaukee', 	'Wisconsin',	'8/12/2014',	'8:10 AM',	'Peter Jennings',	'Peter')),
-	array('email' => 'abc@yahoo.com', 'name' => 'Casper the Ghost', 	'merge-data' => array('Casper', 'Ghost', 		'Indianapolis', 'Indiana',		'7/24/2014',	'10:30 AM', 'Roger Rabbit', 	'Roger')),
-	array('email' => 'abc@yahoo.com', 'name' => 'Curly Howard', 		'merge-data' => array('Curly', 	'Howard', 		'Minneapolis', 	'Minnesota',	'9/3/2014',		'10:25 AM', 'Clark Kent',		'Clark')),
-	array('email' => 'abc@yahoo.com', 'name' => 'Moe Howard', 		'merge-data' => array('Moe', 	'Howard', 		'St. Paul', 	'Minnesota',	'11/16/2014',	'2:25 PM',	'Bruce Willis', 	'Bruce')),
+	array('email' => 'twolf@sugarcrm.com',		'name' => 'Captain Kangaroo',  'merge-data' => array('Captain','Kangaroo', 	'Chicago', 		'Illinois',		'10/24/2014',	'9:15 AM',	'Robert Blake',		'Robert')),   
+
+	array('email' => 'tim_wolf@webtribune.com',	'name' => 'Curly Howard', 	   'merge-data' => array('Curly', 	'Howard', 		'Minneapolis', 	'Minnesota',	'9/3/2014',		'10:25 AM', 'Clark Kent',		'Clark')),   
+  
+    /*       
+	array('email' => 'twolf@sugarcrm.com>',			'name' => 'Moe Howard', 	   'merge-data' => array('Moe', 	'Howard', 		'St. Paul', 	'Minnesota',	'11/16/2014',	'2:25 PM',	'Bruce Willis', 	'Bruce')), 
+      */
+
+  	/*   
 	array(''email' => abc@yahoo.com', 'name' => 'Larry Fine', 		'merge-data' => array('Larry', 	'Fine', 		'Rochester', 	'Minnesota',	'12/25/2014',	'5:15 PM',	'David Banner', 	'David')), 
+	array('email' => 'abc@yahoo.com', 'name' => 'Doctor Do Little', 	'merge-data' => array('Doctor', 'Do Little', 	'Milwaukee', 	'Wisconsin',	'8/12/2014',	'8:10 AM',	'Peter Jennings',	'Peter')),
+	array('email' => 'abc@yahoo.com', 'name' => 'Casper the Ghost', 	'merge-data' => array('Casper', 'Ghost', 		'Indianapolis', 'Indiana',		'7/24/2014',	'10:30 AM', 'Roger Rabbit', 	'Roger')),   
 	*/
 ); 
 

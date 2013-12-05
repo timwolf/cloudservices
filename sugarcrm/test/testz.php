@@ -3,7 +3,7 @@
 //error_reporting(E_STRICT);
      
 include_once('cloud_api.php');
-include_once('guid.php'); 
+include_once('../util/guid.php');
 
 function base64_encode_file($filename) {
     if ($filename) {

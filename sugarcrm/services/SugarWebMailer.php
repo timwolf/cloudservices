@@ -97,7 +97,6 @@ class SugarWebMailer extends SugarServiceApi
     private function sendWebMail_Mandrill($params)
     {
         require_once '../vendor/mandrill/src/Mandrill.php';
-        require_once '../include/guid.php';
 
         $response = array();
 
@@ -274,6 +273,7 @@ class SugarWebMailer extends SugarServiceApi
             'global_merge_vars' => $global_merge_data,
             'merge_vars'    => $mergeFields,
             'images'        => $images,
+            'attachments'   => $attachments,
         );
 
 

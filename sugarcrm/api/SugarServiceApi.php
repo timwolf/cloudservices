@@ -1,4 +1,5 @@
 <?php
+require_once 'guid.php';
 
 class SugarServiceApi {
 

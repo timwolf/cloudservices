@@ -1,60 +1,15 @@
 <?php
 
-define('STATUS_CODE_SUCCESS', 200);
-
 $GLOBALS['config'] = array(
-	'apiUrl'   => 'http://localhost:8888/Mango/toffee/ent/sugarcrm/rest/v10',
-	'username' => 'admin',
-	'password' => 'asdf',
-	'clientid' => 'sugar',
-	'oauth_token' => '',
-	'oauth_token_refresh' => '',
+	'apiUrl'   => '',
+	//'username' => '',
+	//'password' => '',
 );
-
-
-function login() {
-	global $GLOBALS;	
- 
-    $args = array(
-        'grant_type' => 'password',
-        'username' =>  $GLOBALS['config']['username'],
-        'password' =>  $GLOBALS['config']['password'],
-        'client_id' => $GLOBALS['config']['clientid'],
-        'client_secret' => '',
-    );
-    
-    // Prevent an infinite loop, put a fake authtoken in here.
-   $GLOBALS['config']['oauth_token'] = 'LOGGING_IN';
-
-   $result = callResource('/oauth2/token',"POST",$args);
-   if ($result['code'] == 200 && !empty($result['data']) && !empty($result['data']['access_token'])) {
-		 $GLOBALS['config']['oauth_token'] = $result['data']['access_token'];
-		 $GLOBALS['config']['oauth_token_refresh'] = $result['data']['refresh_token'];
-		 return(true);	// Success	
-	}
-	
-	$GLOBALS['config']['oauth_token'] = 'AUTHORIZATION_FAILED';
-
-printf("-------------- LOGIN FAILED ---------------\n");
-print_r($args);
-print_r($result);
-
-    return false;
-}
 
 
 function callResource($uri, $method, $data = null)
 {
 	global $GLOBALS;
-	
-/*--
-	if (empty($GLOBALS['config']['oauth_token'])) {
-		$res=login();
-		if (!$res) {
-			exit;
-		}
-	}
---*/
 	
 	$url	= $GLOBALS['config']['apiUrl'] . $uri;
 	$handle = curl_init();
@@ -63,16 +18,6 @@ function callResource($uri, $method, $data = null)
 
     $headers = array(); 
  	$headers[] = 'Accept: application/json';
-	// $headers[] = 'Content-Type: application/json';
-	
-	// $headers[] = 'Accept: text/xml';
-	// $headers[] = 'Content-Type: text/xml';     
-
-/*--
-	if (!empty($GLOBALS['config']['oauth_token']) && substr($uri,0,13) != "/oauth2/token") {
-	    $headers = array("oauth_token: " . $GLOBALS['config']['oauth_token']);
-	}
---*/
 	
 	curl_setopt($handle, CURLOPT_URL, $url);
 	if (count($headers) > 0) {
