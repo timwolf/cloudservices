@@ -4,6 +4,15 @@ define("DEBUG", false);
 
 define("CAPTURE_STDOUT", false);
 
+//---------------------------------------------------------------------------------------------------------
+$PATH_SEPARATOR = ":";
+// printf("Original Path: %s\n", get_include_path());
+$orig_path = get_include_path();
+$new_path = "util" . $PATH_SEPARATOR . "include" . $PATH_SEPARATOR . "model" . $PATH_SEPARATOR . $orig_path;
+set_include_path($new_path);
+//printf("Modified Path: %s\n", get_include_path());
+//---------------------------------------------------------------------------------------------------------
+
 $endpoints_map = array(
     //----
     "GET:hello" => "HelloThere",
@@ -22,9 +31,9 @@ if (CAPTURE_STDOUT) {
 define("BASE_PATH", "/cloud/sugarcrm");
 define("SERVICE_API_CLASS", "SugarServiceApi");
 
-require_once("include/common.php");
-require_once("include/guid.php");
-require_once("include/commonsql.php");
+require_once("common.php");
+require_once("commonsql.php");
+require_once("guid.php");
 
 require_once("api/SugarApiException.php");
 require_once("api/SugarServiceApi.php");
@@ -100,19 +109,7 @@ if (DEBUG) {
 }
 
 
-//---------------------------------------------------------------------------------------------------------
 
-
-/*--
-$PATH_SEPARATOR = ":";
-printf("Original Path: %s\n", get_include_path());
-$orig_path = get_include_path();
-$new_path = "services" . $PATH_SEPARATOR . $orig_path;
-set_include_path($new_path);
-printf("Modified Path: %s\n", get_include_path());
-set_include_path($orig_path);
-printf("Restored Path: %s\n", get_include_path());
---*/
 
 if (!file_exists('services')) {
     mkdir('services', 0777);
