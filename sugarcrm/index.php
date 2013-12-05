@@ -4,13 +4,15 @@ define("DEBUG", false);
 
 define("CAPTURE_STDOUT", false);
 
+$base_dir = dirname(__FILE__);
+
+
 //---------------------------------------------------------------------------------------------------------
-$PATH_SEPARATOR = ":";
 // printf("Original Path: %s\n", get_include_path());
 $orig_path = get_include_path();
-$new_path = "util" . $PATH_SEPARATOR . "include" . $PATH_SEPARATOR . "model" . $PATH_SEPARATOR . $orig_path;
+$new_path = "$base_dir/util" . PATH_SEPARATOR . "$base_dir/include" . PATH_SEPARATOR . "$base_dir/model" . PATH_SEPARATOR . $orig_path;
 set_include_path($new_path);
-//printf("Modified Path: %s\n", get_include_path());
+// printf("Modified Path: %s\n", get_include_path());
 //---------------------------------------------------------------------------------------------------------
 
 $endpoints_map = array(
@@ -33,7 +35,7 @@ define("SERVICE_API_CLASS", "SugarServiceApi");
 
 require_once("common.php");
 require_once("commonsql.php");
-require_once("guid.php");
+require_once("util.php");
 
 require_once("api/SugarApiException.php");
 require_once("api/SugarServiceApi.php");

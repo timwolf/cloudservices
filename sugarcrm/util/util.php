@@ -1,5 +1,16 @@
 <?php
 
+function base64_encode_file($filename)
+{
+    $encoded = '';
+    if ($filename && ($fh=fopen($filename, "r"))) {
+        $bin = fread($fh, filesize($filename));
+        $encoded = base64_encode($bin);
+        fclose($fh);
+    }
+    return $encoded;
+}
+
 /**
  * determines if a passed string matches the criteria for a Sugar GUID
  * @param string $guid
