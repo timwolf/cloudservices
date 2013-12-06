@@ -3,7 +3,7 @@ require_once "../model/MailServiceSendParameters.php";
 
 class SugarWebMailer extends SugarServiceApi
 {
-    const MAIL_SERVICE_VENDOR = 'Mandrill';   // 'Mandrill, 'Sendgrid', 'Mailjet  ...
+    const MAIL_SERVICE_VENDOR = 'Sendgrid';   // 'Mandrill, 'Sendgrid', 'Mailjet  ...
 
     public function registerApiRest()
     {
@@ -118,7 +118,6 @@ class SugarWebMailer extends SugarServiceApi
 
         -------*/
 
-
         $default_merge_field_delimiters = array(
             "begin" => "*|",
             "end"   => "|*",
@@ -126,7 +125,7 @@ class SugarWebMailer extends SugarServiceApi
 
         $api_user    = empty($params['API-USER']) ? ''    : $params['API-USER'];
         $api_pass    = empty($params['API-PASS']) ? ''    : $params['API-PASS'];
-        $customer_id  = empty($params['CUSTOMER-ID']) ? '' : $params['CUSTOMER-ID'];  // Customer Account Id
+        $customer_id = empty($params['CUSTOMER-ID']) ? '' : $params['CUSTOMER-ID'];  // Customer Account Id
         $campaign_id = empty($params['CAMPAIGN-ID']) ? '' : $params['CAMPAIGN-ID']; // Campaign Id
         $merge_field_delimeters = empty($params['MERGE-FIELD-DELIMETERS']) ? $default_merge_field_delimiters : $params['MERGE-FIELD-DELIMETERS'];
         $global_merge_data      = empty($params['GLOBAL-MERGE-DATA'])    ? array() : $params['GLOBAL-MERGE-DATA'];
@@ -150,73 +149,7 @@ class SugarWebMailer extends SugarServiceApi
             $x_headers['X-CAMPAIGN-ID'] = $campaign_id;
         }
         if (!empty($customer_id)) {
-            $x_headers['X-CUSTOMER-ID'] = $campaign_id;
-        }
-
-        $num_recipient_merge_vars = count($recipient_merge_vars);
-
-
-        /**
-            'global_merge_vars' => array(
-                    array(
-                        'name' => 'COMPANY_NAME',
-                        'content' => 'BakersField Electronics, Inc.',
-                    ),
-                    array(
-                        'name' => 'MAIL_SERVICE',
-                        'content' => 'Mandrill',
-                    ),
-            );
-
-            $recipient_merge_vars = array(
-                "first_name",
-                "last_name",
-                "city",
-                "state",
-                "appointment_date",
-                "appointment_time",
-                "representative_name",
-                "representative_first_name",
-            );
-
-            $recipients = array(
-                array("abc@yahoo.com", "Captain Kangaroo", 	"MERGE_DATA" => array("Captain","Kangaroo", 	"Chicago", 		"Illinois",		"10/24/2014",	"9:15 AM",	"Robert Blake",		"Robert")),
-                array("abc@yahoo.com", "Doctor Do Little", 	"MERGE_DATA" => array("Doctor", "Do Little", 	"Milwaukee", 	"Wisconsin",	"8/12/2014",	"8:10 AM",	"Peter Jennings",	"Peter")),
-                array("abc@yahoo.com", "Casper the Ghost", 	"MERGE_DATA" => array("Casper", "Ghost", 		"Indianapolis", "Indiana",		"7/24/2014",	"10:30 AM", "Roger Rabbit", 	"Roger")),
-                array("abc@yahoo.com", "Curly Howard", 		"MERGE_DATA" => array("Curly", 	"Howard", 		"Minneapolis", 	"Minnesota",	"9/3/2014",		"10:25 AM", "Clark Kent",		"Clark")),
-                array("abc@yahoo.com", "Moe Howard", 		"MERGE_DATA" => array("Moe", 	"Howard", 		"St. Paul", 	"Minnesota",	"11/16/2014",	"2:25 PM",	"Bruce Willis", 	"Bruce")),
-                array("abc@yahoo.com", "Larry Fine", 		"MERGE_DATA" => array("Larry", 	"Fine", 		"Rochester", 	"Minnesota",	"12/25/2014",	"5:15 PM",	"David Banner", 	"David")),
-            );
-
-         **/
-
-        $toList = array();
-        $mergeFields = array();
-        foreach($recipients AS $recipient) {
-            if (!empty($recipient['email'])) {
-                $toList[] = array(
-                    'email' => $recipient['email'],
-                    'name'  => empty($recipient['name']) ? '' : $recipient['name'],
-                    // 'type' => 'to',
-                );
-                if ($num_recipient_merge_vars > 0) {
-                    $mergeFieldData = array();
-                    $mergeFieldData['rcpt'] = $recipient['email'];
-                    $mdata = empty($recipient['merge-data']) ? array() : $recipient['merge-data']; // Supplied in recipient
-                    $j=0;
-                    $mcount = count($mdata);
-                    foreach($recipient_merge_vars AS $var) {
-                        $value = ($mcount > $j) ? $mdata[$j] : '';
-                        $mfield = array(
-                            'name'    => $var,
-                            'content' => $value
-                        );
-                        $mergeFieldData['vars'][] = $mfield;
-                        $j++;
-                    }
-                    $mergeFields[] = $mergeFieldData;
-                }
-            }
+            $x_headers['X-CUSTOMER-ID'] = $customer_id;
         }
 
         $sendParams = new MailServiceSendParameters();
@@ -226,10 +159,11 @@ class SugarWebMailer extends SugarServiceApi
         $sendParams->subject     = $subject;
         $sendParams->from_email  = $from_email;
         $sendParams->from_name   = $from_name;
-        $sendParams->toList      = $toList;
         $sendParams->x_headers   = $x_headers;
-        $sendParams->global_merge_data = $global_merge_data;
-        $sendParams->mergeFields = $mergeFields;
+        $sendParams->merge_field_delimeters = $merge_field_delimeters;
+        $sendParams->global_merge_data      = $global_merge_data;
+        $sendParams->recipient_merge_vars   = $recipient_merge_vars;
+        $sendParams->recipients             = $recipients;
         $sendParams->images      = $images;
         $sendParams->attachments = $attachments;
 

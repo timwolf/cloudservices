@@ -106,12 +106,7 @@ $images = array(
 	),
 );
 
-$attachments = array( 
-	array(
-		'name' =>  $cid,   								  			  			 // CID
-		'type' =>  'image/jpeg',          							  			 // image/png  image/jpeg  image/gif 
-		'content' =>  base64_encode_file('/Users/twolfe/images/superman.jpg'),   // base64_encoded   
-	),
+$attachments = array(
     array(
 		'name' =>  'Email.pdf',								          // FileName
 		'type' =>  'text/plain',          							  //  
