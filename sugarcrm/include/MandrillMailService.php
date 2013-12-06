@@ -26,6 +26,74 @@ class MandrillMailService implements iMailService
    public function send(MailServiceSendParameters $sendParams) {
        $exception = null;
 
+       /**
+       $global_merge_vars = array(
+            array(
+                'name' => 'COMPANY_NAME',
+                'content' => 'BakersField Electronics, Inc.',
+            ),
+            array(
+                'name' => 'MAIL_SERVICE',
+                'content' => 'Mandrill',
+            ),
+       );
+
+       $recipient_merge_vars = array(
+           "first_name",
+           "last_name",
+           "city",
+           "state",
+           "appointment_date",
+           "appointment_time",
+           "representative_name",
+           "representative_first_name",
+       );
+
+       $recipients = array(
+           array("abc@yahoo.com", "Captain Kangaroo",   "merge-data" => array("Captain","Kangaroo", 	"Chicago", 		"Illinois",		"10/24/2014",	"9:15 AM",	"Robert Blake",		"Robert")),
+           array("abc@yahoo.com", "Doctor Do Little",   "merge-data" => array("Doctor", "Do Little", 	"Milwaukee", 	"Wisconsin",	 "8/12/2014",	"8:10 AM",	"Peter Jennings",	"Peter")),
+           array("abc@yahoo.com", "Casper the Ghost",   "merge-data" => array("Casper", "Ghost", 		"Indianapolis", "Indiana",		 "7/24/2014",	"10:30 AM", "Roger Rabbit", 	"Roger")),
+           array("abc@yahoo.com", "Curly Howard",       "merge-data" => array("Curly", 	"Howard", 		"Minneapolis", 	"Minnesota",	 "9/3/2014",	"10:25 AM", "Clark Kent",		"Clark")),
+           array("abc@yahoo.com", "Moe Howard",         "merge-data" => array("Moe", 	"Howard", 		"St. Paul", 	"Minnesota",	"11/16/2014",	"2:25 PM",	"Bruce Willis", 	"Bruce")),
+           array("abc@yahoo.com", "Larry Fine",         "merge-data" => array("Larry", 	"Fine", 		"Rochester", 	"Minnesota",	"12/25/2014",	"5:15 PM",	"David Banner", 	"David")),
+       );
+        **/
+
+       /*-- Merge field delimeters present in the provided HTML --*/
+       $merge_field_delimeters  = $sendParams->merge_field_delimeters;
+       $recipient_merge_vars    = $sendParams->recipient_merge_vars;
+       $recipients              = $sendParams->recipients;
+
+       $num_recipient_merge_vars = count($recipient_merge_vars);
+       $toList = array();
+       $mergeFields = array();
+       foreach($recipients AS $recipient) {
+           if (!empty($recipient['email'])) {
+               $toList[] = array(
+                   'email' => $recipient['email'],
+                   'name'  => empty($recipient['name']) ? '' : $recipient['name'],
+                   // 'type' => 'to',
+               );
+               if ($num_recipient_merge_vars > 0) {
+                   $mergeFieldData = array();
+                   $mergeFieldData['rcpt'] = $recipient['email'];
+                   $mdata = empty($recipient['merge-data']) ? array() : $recipient['merge-data']; // Supplied in recipient
+                   $j=0;
+                   $mcount = count($mdata);
+                   foreach($recipient_merge_vars AS $var) {
+                       $value = ($mcount > $j) ? $mdata[$j] : '';
+                       $mfield = array(
+                           'name'    => $var,
+                           'content' => $value
+                       );
+                       $mergeFieldData['vars'][] = $mfield;
+                       $j++;
+                   }
+                   $mergeFields[] = $mergeFieldData;
+               }
+           }
+       }
+
        $mandrill = new Mandrill(self::$account_key);
 
        $message = array(
@@ -52,10 +120,10 @@ class MandrillMailService implements iMailService
            'subject'       => $sendParams->subject,
            'from_email'    => $sendParams->from_email,
            'from_name'     => $sendParams->from_name,
-           'to'            => $sendParams->toList,
+           'to'            => $toList,
            'headers'       => $sendParams->x_headers,
            'global_merge_vars' => $sendParams->global_merge_data,
-           'merge_vars'    => $sendParams->mergeFields,
+           'merge_vars'    => $mergeFields,
            'images'        => $sendParams->images,
            'attachments'   => $sendParams->attachments,
        );
