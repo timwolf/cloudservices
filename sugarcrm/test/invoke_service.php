@@ -74,7 +74,7 @@ $recipient_merge_vars = array(
 $recipients = array(
 	array('email' => 'twolf@sugarcrm.com',		'name' => 'Captain Kangaroo',  'merge-data' => array('Captain','Kangaroo', 	'Chicago', 		'Illinois',		'10/24/2014',	'9:15 AM',	'Robert Blake',		'Robert')),   
 
-	array('email' => 'tim_wolf@webtribune.com',	'name' => 'Curly Howard', 	   'merge-data' => array('Curly', 	'Howard', 		'Minneapolis', 	'Minnesota',	'9/3/2014',		'10:25 AM', 'Clark Kent',		'Clark')),   
+	array('email' => 'sugar@ebmt.net', 			'name' => 'Curly Howard', 	   'merge-data' => array('Curly', 	'Howard', 		'Minneapolis', 	'Minnesota',	'9/3/2014',		'10:25 AM', 'Clark Kent',		'Clark')),   
   
     /*       
 	array('email' => 'twolf@sugarcrm.com>',			'name' => 'Moe Howard', 	   'merge-data' => array('Moe', 	'Howard', 		'St. Paul', 	'Minnesota',	'11/16/2014',	'2:25 PM',	'Bruce Willis', 	'Bruce')), 
