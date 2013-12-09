@@ -1,0 +1,12 @@
+<configuration xmlns="http://logging.apache.org/log4php/">
+<appender name="CloudServiceAppender" class="LoggerAppenderFile">
+  <layout class="LoggerLayoutPattern">
+	<param name="conversionPattern" value="%date [%logger] %message%newline" />
+	<param name="file" value="myLog.log" />
+  </layout>
+</appender>
+<root>
+<level value="DEBUG" />
+  <appender_ref ref="CloudServiceAppender" />
+</root>
+</configuration>

@@ -1,29 +1,10 @@
-buildpath
-.externalToolBuilders/
 .project
 .settings/
 .idea
-build/rome/builds/
-sidecar/src/config.js
-sidecar/src/config_si.php
-sidecar/minified
-sidecar/docs
-sidecar/extensions/nomad/compiled/*.js
-sidecar/extensions/portal/config.js
-sugarcrm/clients/forecasts/config.js
-sidecar/extensions/core/config.js
-sidecar/extensions/nomad/config.js
-sugarcrm/config_si.php
-sugarcrm/portal2/config.js
 *~
-translations/
 /.idea
 /.settings
 .DS_Store
-sugarcrm/custom/include/
-sugarcrm/custom/modules/
-sugarcrm/custom/Extension/
-sugarcrm/custom/themes/
-tags
-build/rome/MAMP
-atlassian-ide-plugin.xml
+log/* !.gitignore  
+sugarcrm/log/* !.gitignore 
+*.log

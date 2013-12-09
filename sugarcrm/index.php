@@ -33,6 +33,7 @@ define("SERVICE_API_CLASS", "SugarServiceApi");
 require_once("common.php");
 require_once("commonsql.php");
 require_once("util.php");
+require_once("SugarLogger.php");
 
 require_once("api/SugarApiException.php");
 require_once("api/SugarServiceApi.php");
@@ -46,7 +47,6 @@ $HTTP_HOST = $_SERVER["HTTP_HOST"];
 $REQUEST_METHOD = $_SERVER["REQUEST_METHOD"];
 
 $CURRENT_DIRECTORY = getcwd();
-$THIS_FILE_DIRECTORY = dirname(__FILE__);
 
 $tempArray = explode("?", $REQUEST_URI);
 $_uri_ = $tempArray[0];
@@ -90,7 +90,7 @@ if ($REQUEST_METHOD != "GET") {
 
 if (DEBUG) {
     printf("\n\n=============== REQUEST RECEIVED : %s ===============\n", $REQUEST_URI);
-    printf("FILE-DIRECTORY    = %s\n", $THIS_FILE_DIRECTORY);
+    printf("FILE-DIRECTORY    = %s\n", $base_dir);
     printf("REMOTE_ADDR       = %s\n", $REMOTE_ADDR);
     printf("QUERY_STRING      = %s\n", $QUERY_STRING);
     printf("REQUEST_URI       = %s\n", $REQUEST_URI);
@@ -125,6 +125,8 @@ if (DEBUG) {
     printf("MAP_KEY_ANY:  %s\n", $map_key_any);
     print_r($endpoints_map);
 }
+
+$GLOBALS['log']->debug("REST Endpoint: $REQUEST_METHOD $endpoint");
 
 try {
     unset($map_key);
