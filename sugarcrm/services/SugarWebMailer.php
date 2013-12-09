@@ -14,6 +14,12 @@ class SugarWebMailer extends SugarServiceApi
                 'pathVars' => array('', ''),
                 'method' => 'sendMail',
             ),
+            'queueMail' => array(
+                'reqType' => 'POST',
+                'path' => array('mailqueue', 'send'),
+                'pathVars' => array('', ''),
+                'method' => 'queueMail',
+            ),
             'getSendRequestStatus' => array(
                 'reqType' => 'GET',
                 'path' => array('webmail', 'status', '?'),
@@ -51,6 +57,29 @@ class SugarWebMailer extends SugarServiceApi
             //"data"   => $this->db_sample()
         );
         return $result;
+    }
+
+
+    public function queueMail($params)
+    {
+        $sendParams = $this->getSendParameters($params);
+
+        require_once("../model/JobQueue.php");
+        $queue = new JobQueue($this->db);
+
+        $cust_id = empty($params['CUSTOMER-ID']) ? '' : $params['CUSTOMER-ID'];
+        $data = $sendParams->toArray();
+        $job_id = create_guid();
+        $result = $queue->addQueue($cust_id, $job_id, $data, true);
+
+        if ($result) {
+            return array(
+                "status" => "accepted",
+                "job_id" => $job_id,
+            );
+        }
+
+        throw new SugarApiExceptionError('Unable to process request');
     }
 
 
