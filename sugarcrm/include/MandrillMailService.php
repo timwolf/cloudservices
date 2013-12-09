@@ -12,8 +12,10 @@
  * Copyright  2004-2013 SugarCRM Inc.  All rights reserved.
  */
 
+$base_dir = dirname(__FILE__) . "/../";
+
 require_once 'iMailService.php';
-require_once '../vendor/mandrill/src/Mandrill.php';
+require_once $base_dir . 'vendor/mandrill/src/Mandrill.php';
 
 class MandrillMailService implements iMailService
 {
@@ -129,9 +131,12 @@ class MandrillMailService implements iMailService
        );
 
        try {
+            $GLOBALS['log']->debug("-- MESSAGE --\n" . print_r($message,true));
             $result = $mandrill->messages->send($message);
+            $GLOBALS['log']->debug("-- RESULT --\n" . print_r($result,true));
        } catch(Exception $e) {
            $exception = $e;
+           return array("ERROR" => $e->getMessage());
        }
 
        if (!empty($exception)) {

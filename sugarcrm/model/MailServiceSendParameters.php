@@ -1,4 +1,16 @@
 <?php
+/*
+ * By installing or using this file, you are confirming on behalf of the entity
+ * subscribed to the SugarCRM Inc. product ("Company") that Company is bound by
+ * the SugarCRM Inc. Master Subscription Agreement ("MSA"), which is viewable at:
+ * http://www.sugarcrm.com/master-subscription-agreement
+ *
+ * If Company is not bound by the MSA, then by installing or using this file
+ * you are agreeing unconditionally that Company will be bound by the MSA and
+ * certifying that you have authority to bind Company accordingly.
+ *
+ * Copyright  2004-2013 SugarCRM Inc.  All rights reserved.
+ */
 
 class MailServiceSendParameters
 {
@@ -17,7 +29,7 @@ class MailServiceSendParameters
 
     public static function fromArray(array $params)
     {
-        $sendParameters = new MailServiceSendParameters();
+        $sendParams = new MailServiceSendParameters();
 
         $sendParams->html_body   = $params['html_body'];
         $sendParams->text_body   = $params['text_body'];
@@ -47,9 +59,9 @@ class MailServiceSendParameters
             'merge_field_delimeters' => $this->merge_field_delimeters,
             'global_merge_data' => $this->global_merge_data,
             'recipient_merge_vars' => $this->recipient_merge_vars,
-            '$recipients' => $this->recipients,
+            'recipients' => $this->recipients,
             'images' => $this->images,
-            '$attachments' => $this->attachments,
+            'attachments' => $this->attachments,
         );
     }
 }

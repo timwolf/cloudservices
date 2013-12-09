@@ -1,4 +1,16 @@
 <?php
+/*
+ * By installing or using this file, you are confirming on behalf of the entity
+ * subscribed to the SugarCRM Inc. product ("Company") that Company is bound by
+ * the SugarCRM Inc. Master Subscription Agreement ("MSA"), which is viewable at:
+ * http://www.sugarcrm.com/master-subscription-agreement
+ *
+ * If Company is not bound by the MSA, then by installing or using this file
+ * you are agreeing unconditionally that Company will be bound by the MSA and
+ * certifying that you have authority to bind Company accordingly.
+ *
+ * Copyright  2004-2013 SugarCRM Inc.  All rights reserved.
+ */
 
 require_once("JobTask.php");
 
@@ -154,27 +166,38 @@ class JobQueue
 
     private function dequeueNextTask($job_id = null)
     {
-        mysql_query("LOCK TABLES taskqueue WRITE", $this->db);
+        mysql_query("LOCK TABLES jobqueue WRITE, taskqueue WRITE", $this->db);
         $task = false;
+        $exception = null;
 
-        $sql = "SELECT * FROM taskqueue";
-        $sql .= " WHERE active  = 1";
-        if (!empty($job_id)) {
-            $sql .= " AND job_id  = '" . $job_id . "'";
-        }
-        $sql .= " ORDER by id LIMIT 1";
-        $result = mysql_query($sql, $this->db);
-        if ($result && ($row = mysql_fetch_array($result, MYSQL_ASSOC))) {
-            if (!empty($row['job_id']) && $row['last']!=0) {
-                $this->deleteJob($row['cust_id'], $row['job_id']);
-            } else {
-                $sql = "UPDATE taskqueue SET active = 2";
-                $sql .= " WHERE job_id  = '" .  $row['job_id'] . "'";
-                $sql .= " AND   id  = '" . $row['id'] . "'";
-                mysql_query($sql, $this->db);
+        try {
+            $sql = "SELECT * FROM taskqueue";
+            $sql .= " WHERE active  = 1";
+            if (!empty($job_id)) {
+                $sql .= " AND job_id  = '" . $job_id . "'";
             }
-            return($this->toJobTask($row));
+            $sql .= " ORDER by id LIMIT 1";
+            $result = mysql_query($sql, $this->db);
+            if ($result && ($row = mysql_fetch_array($result, MYSQL_ASSOC))) {
+                if (!empty($row['job_id']) && $row['last']!=0) {
+
+                    $this->deleteTask($row['job_id'],$row['id']);
+                    $this->setJobStatus($row['cust_id'], $row['job_id'], self::STATUS_COMPLETE);
+
+                    //--- $this->deleteJob($row['cust_id'], $row['job_id']);
+                } else {
+                    $this->setJobStatus($row['cust_id'], $row['job_id'], self::STATUS_STARTED);
+                    $sql = "UPDATE taskqueue SET active = 2";
+                    $sql .= " WHERE job_id  = '" .  $row['job_id'] . "'";
+                    $sql .= " AND   id  = '" . $row['id'] . "'";
+                    mysql_query($sql, $this->db);
+                }
+                $task = $this->toJobTask($row);
+            }
+        } catch(Excetion $e) {
+            $exception = $e;
         }
+
         mysql_query("UNLOCK TABLES", $this->db);
         return $task;
     }

@@ -8,6 +8,8 @@ include_once('../util/util.php');
 // $GLOBALS['config']['apiUrl'] = 'http://campaigns.sugarcrmlabs.com/cloud/sugarcrm';  
 $GLOBALS['config']['apiUrl'] = 'http://localhost:8888/cloud/sugarcrm'; 
 
+
+
 $text = <<<TEXTMESSAGE
 Hello  *|first_name|* *|last_name|*,
 
