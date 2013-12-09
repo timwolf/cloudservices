@@ -1,0 +1,15 @@
+2013-12-09T11:14:28-05:00 [DEBUG][/Users/twolfe/projects/Cloud/sugarcrm/lib/testz.php:38] My second message.
+2013-12-09T11:14:28-05:00 [INFO][/Users/twolfe/projects/Cloud/sugarcrm/lib/testz.php:43] My third message.
+2013-12-09T11:14:28-05:00 [WARN][/Users/twolfe/projects/Cloud/sugarcrm/lib/testz.php:48] My fourth message.
+2013-12-09T11:14:28-05:00 [ERROR][/Users/twolfe/projects/Cloud/sugarcrm/lib/testz.php:53] My fifth message.
+2013-12-09T11:14:28-05:00 [FATAL][/Users/twolfe/projects/Cloud/sugarcrm/lib/testz.php:58] My sixth message.
+2013-12-09T11:16:01-05:00 [DEBUG][/Users/twolfe/projects/Cloud/sugarcrm/lib/testz.php:38] My second message.
+2013-12-09T11:16:01-05:00 [INFO][/Users/twolfe/projects/Cloud/sugarcrm/lib/testz.php:43] My third message.
+2013-12-09T11:16:01-05:00 [WARN][/Users/twolfe/projects/Cloud/sugarcrm/lib/testz.php:48] My fourth message.
+2013-12-09T11:16:01-05:00 [ERROR][/Users/twolfe/projects/Cloud/sugarcrm/lib/testz.php:53] My fifth message.
+2013-12-09T11:16:01-05:00 [FATAL][/Users/twolfe/projects/Cloud/sugarcrm/lib/testz.php:58] My sixth message.
+2013-12-09T11:20:35-05:00 [DEBUG][/Users/twolfe/projects/Cloud/sugarcrm/lib/testz.php:38] My second message.
+2013-12-09T11:20:35-05:00 [INFO][/Users/twolfe/projects/Cloud/sugarcrm/lib/testz.php:43] My third message.
+2013-12-09T11:20:35-05:00 [WARN][/Users/twolfe/projects/Cloud/sugarcrm/lib/testz.php:48] My fourth message.
+2013-12-09T11:20:35-05:00 [ERROR][/Users/twolfe/projects/Cloud/sugarcrm/lib/testz.php:53] My fifth message.
+2013-12-09T11:20:35-05:00 [FATAL][/Users/twolfe/projects/Cloud/sugarcrm/lib/testz.php:58] My sixth message.
