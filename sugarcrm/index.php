@@ -16,11 +16,8 @@ set_include_path($new_path);
 //---------------------------------------------------------------------------------------------------------
 
 $endpoints_map = array(
-    //----
-    "GET:hello" => "HelloThere",
-    "POST:hello" => "HelloThere",
-    //----
-    "*:webmail" => "SugarWebMailer",
+    "*:webmail"   => "SugarWebMailer",
+    "*:mailqueue" => "SugarWebMailer",
 );
 
 
