@@ -12,10 +12,12 @@
  * Copyright  2004-2013 SugarCRM Inc.  All rights reserved.
  */
 
-require_once "common.php";
-require_once "commonsql.php";
-require_once "util.php";
-require_once "MailServiceSendParameters.php";
+$base_dir = dirname(__FILE__) . "/../";
+
+require_once $base_dir . 'util/common.php';
+require_once $base_dir . 'util/commonsql.php';
+require_once $base_dir . 'util/util.php';
+require_once $base_dir . 'model/MailServiceSendParameters.php';
 
 
 /**

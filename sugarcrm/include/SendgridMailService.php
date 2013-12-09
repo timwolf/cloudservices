@@ -12,9 +12,11 @@
  * Copyright  2004-2013 SugarCRM Inc.  All rights reserved.
  */
 
+$base_dir = dirname(__FILE__) . "/../";
+
 require_once 'iMailService.php';
-require_once '../vendor/sendgrid/unirest-php/lib/Unirest.php';
-require_once '../vendor/sendgrid/sendgrid-php/lib/SendGrid.php';
+require_once $base_dir . 'vendor/sendgrid/unirest-php/lib/Unirest.php';
+require_once $base_dir . 'vendor/sendgrid/sendgrid-php/lib/SendGrid.php';
 SendGrid::register_autoloader();
 
 class SendgridMailService implements iMailService

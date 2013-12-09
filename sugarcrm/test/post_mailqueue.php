@@ -5,8 +5,10 @@
 include_once('cloud_api.php');
 include_once('../util/util.php');
 
-// $GLOBALS['config']['apiUrl'] = 'http://campaigns.sugarcrmlabs.com/cloud/sugarcrm';  
-$GLOBALS['config']['apiUrl'] = 'http://localhost:8888/cloud/sugarcrm'; 
+// $GLOBALS['config']['apiUrl'] = 'http://campaigns.sugarcrmlabs.com/cloud/sugarcrm';
+$GLOBALS['config']['apiUrl'] = 'http://localhost:8888/cloud/sugarcrm';
+
+
 
 $text = <<<TEXTMESSAGE
 Hello  *|first_name|* *|last_name|*,
@@ -130,10 +132,10 @@ $html_body .= 'Tony<br />';
 
    //$html_body = $html;
 
-    
- 
-// $images=array();
-// $attachments=array();
+
+//  $images=array();
+//  $attachments=array();
+
 
 $post_data = array(
 	'API-USER'		=> $user,
