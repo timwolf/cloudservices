@@ -1,8 +1,6 @@
 <?php
-
-require_once("../util/common.php");
 require_once("../util/commonsql.php");
-require_once("../util/util.php");
+require_once("../util/utils.php");
 
 require_once("../model/JobQueue.php");
 
@@ -28,9 +26,9 @@ for ($i=0; $i<$jcount; $i++) {
 	$job_id = create_guid();
 	printf("\nCUST: %s JOB:%s\n", $cust_id, $job_id); 
 	for ($j=0; $j<$tcount-1; $j++) { 
-		$result = $queue->addQueue($cust_id, $job_id, $data, false);
-		printf("AddQueue  Result=%d\n", $result);		      
+		$result = $queue->writeQueue($cust_id, $job_id, $data, false);
+		printf("writeQueue  Result=%d\n", $result);
 	}
-	$result = $queue->addQueue($cust_id, $job_id, $data, true);
-	printf("AddQueue FINAL Result=%d\n", $result);
+	$result = $queue->writeQueue($cust_id, $job_id, $data, true);
+	printf("writeQueue FINAL Result=%d\n", $result);
 }

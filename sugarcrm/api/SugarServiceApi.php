@@ -12,11 +12,12 @@
  * Copyright  2004-2013 SugarCRM Inc.  All rights reserved.
  */
 
-require_once 'util.php';
+require_once 'utils.php';
 
 class SugarServiceApi {
 
     public $db;
+    public $customer_id;
 
     /**
      * Handles validation of required arguments for a request

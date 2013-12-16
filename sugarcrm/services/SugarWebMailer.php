@@ -13,10 +13,10 @@
  */
 
 require_once "../model/MailServiceSendParameters.php";
+require_once "../util/Config.php";
 
 class SugarWebMailer extends SugarServiceApi
 {
-    const MAIL_SERVICE_VENDOR = 'Mandrill';   // 'Mandrill, 'Sendgrid', 'Mailjet  ...
 
     public function registerApiRest()
     {
@@ -52,24 +52,23 @@ class SugarWebMailer extends SugarServiceApi
 
     public function sendMail($params)
     {
-        $mailServiceClass = self::MAIL_SERVICE_VENDOR . 'MailService';
+        $mailProvider = Config::getEmailServiceProvider();
+        $mailServiceClass = $mailProvider['provider_name'] . 'MailService';
         $mailServiceFile  = '../include/' . $mailServiceClass . '.php';
         if (file_exists($mailServiceFile)) {
             include_once($mailServiceFile);
+        } else {
+            throw new SugarApiExceptionNotFound('Service handler not found');
         }
 
         $sendParams = $this->getSendParameters($params);
 
         $mailService = new $mailServiceClass();
-        $response =$mailService->send($sendParams);
+        $mailService->setServiceAccountInfo($mailProvider['account_id'], $mailProvider['account_password']);
 
-        $result = array(
-            "vendor"   => self::MAIL_SERVICE_VENDOR,
-            // "params"   => $params,
-            "response" => $response,
-            //"data"   => $this->db_sample()
-        );
-        return $result;
+        $response =$mailService->send($this->customer_id, $sendParams);
+
+        return $response;
     }
 
 
@@ -80,10 +79,9 @@ class SugarWebMailer extends SugarServiceApi
         require_once("../model/JobQueue.php");
         $queue = new JobQueue($this->db);
 
-        $cust_id = empty($params['CUSTOMER-ID']) ? '' : $params['CUSTOMER-ID'];
         $data = $sendParams->toArray();
         $job_id = create_guid();
-        $result = $queue->addQueue($cust_id, $job_id, $data, true);
+        $result = $queue->writeQueue($this->customer_id, $job_id, $data, true);
 
         if ($result) {
             return array(
@@ -101,8 +99,6 @@ class SugarWebMailer extends SugarServiceApi
          $result = array(
             "req"    => 'in (webmail/sendMail) SugarWebMailer - in Method: getSendRequestStatus',
             "params" => $params,
-            //"guid"   => create_guid(),
-            //"data"   => $this->db_sample()
         );
         return $result;
     }
@@ -113,8 +109,6 @@ class SugarWebMailer extends SugarServiceApi
         $result = array(
             "req"    => 'in (webmail/sendMail) SugarWebMailer - in Method: listSendRequestStatus',
             "params" => $params,
-            //"guid"   => create_guid(),
-            //"data"   => $this->db_sample()
         );
         return $result;
     }
@@ -123,8 +117,6 @@ class SugarWebMailer extends SugarServiceApi
     private function getSendParameters($params)
     {
         $required = array(
-            "API-USER",
-            "API-PASS",
             "RECIPIENTS",
             // "FROM-NAME",
             "FROM-EMAIL",
@@ -133,41 +125,15 @@ class SugarWebMailer extends SugarServiceApi
 
         foreach($required as $var) {
             if (empty($params[$var])) {
-                throw new SugarApiException("Required Field Missing : " . $var);
+                throw new SugarApiExceptionMissingParameter("Required Field Missing : " . $var);
             }
         }
-
-        /*------
-
-        $post_data = array(
-            "API-USER"		=> $user,
-            "API-PASS"		=> $pass,
-            "CUSTOMER-ID"	=> $customer_id,
-            "CAMPAIGN-ID"	=> $campaign_id,
-            "MERGE-FIELD-DELIMETERS" => $merge_field_delimiters,
-            "MERGE-FIELD-VARIABLES"  => $merge_field_variables,
-            "RECIPIENTS"	=> $recipients,
-            "X-HEADERS"		=> $x_headers,
-            "FROM-NAME"		=> $from_name,
-            "FROM-EMAIL"	=> $from_email,
-            "REPLY-TO"		=> $reply_to,
-            "SUBJECT"		=> $subject,
-            "HTML-BODY"		=> $html,
-            "TEXT-BODY"		=> $text,
-            "INLINE-IMAGES" => $images,
-            "ATTACHMENTS" 	=> $attachments,
-        );
-
-        -------*/
 
         $default_merge_field_delimiters = array(
             "begin" => "*|",
             "end"   => "|*",
         );
 
-        $api_user    = empty($params['API-USER']) ? ''    : $params['API-USER'];
-        $api_pass    = empty($params['API-PASS']) ? ''    : $params['API-PASS'];
-        $customer_id = empty($params['CUSTOMER-ID']) ? '' : $params['CUSTOMER-ID'];  // Customer Account Id
         $campaign_id = empty($params['CAMPAIGN-ID']) ? '' : $params['CAMPAIGN-ID']; // Campaign Id
         $merge_field_delimeters = empty($params['MERGE-FIELD-DELIMETERS']) ? $default_merge_field_delimiters : $params['MERGE-FIELD-DELIMETERS'];
         $global_merge_data      = empty($params['GLOBAL-MERGE-DATA'])    ? array() : $params['GLOBAL-MERGE-DATA'];

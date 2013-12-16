@@ -12,11 +12,22 @@
  * Copyright  2004-2013 SugarCRM Inc.  All rights reserved.
  */
 
-class JobTask
+require_once 'utils.php';
+
+class SugarAuthenticationManager
 {
-    public $cust_id;
-    public $job_id;
-    public $task_id;
-    public $last;
-    public $data;
+
+    public $db;
+
+    function __construct($db) {
+        $this->db = $db;
+    }
+
+    /**
+     * Handles Customer Account Authentication
+     */
+    public function authenticate($user_id, $password) {
+        return true;
+    }
+
 }

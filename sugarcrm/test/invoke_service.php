@@ -3,7 +3,10 @@
 //error_reporting(E_STRICT);
      
 include_once('cloud_api.php');
-include_once('../util/util.php');
+include_once('../util/utils.php');
+
+$GLOBALS['config']['api_user'] = 'K456-5348955523';
+$GLOBALS['config']['api_pass'] = '3440112776';
 
 // $GLOBALS['config']['apiUrl'] = 'http://campaigns.sugarcrmlabs.com/cloud/sugarcrm';  
 $GLOBALS['config']['apiUrl'] = 'http://localhost:8888/cloud/sugarcrm'; 
@@ -87,12 +90,9 @@ $recipients = array(
 	*/
 ); 
 
-$user = 'K456-5348955523';
-$pass = '3440112776';
 $from_name  = '';
 $from_email = 'noreply@redherring.net';
 $reply_to   = $from_email;
-$customer_id  = 'ebdf3380-37f3-3017-1dbb-5294fe857ca6';
 $campaign_id = 'db8432e4-5151-f1ca-44c9-5294fe721518';
 $unsubscribe_url = 'http://google.com';
 $x_headers = array();
@@ -136,9 +136,6 @@ $html_body .= 'Tony<br />';
 // $attachments=array();
 
 $post_data = array(
-	'API-USER'		=> $user,
-    'API-PASS'		=> $pass,
-	'CUSTOMER-ID'	=> $customer_id,
 	'CAMPAIGN-ID'	=> $campaign_id,
 	'MERGE-FIELD-DELIMETERS' => $merge_field_delimiters,
 	'GLOBAL-MERGE-DATA'      => $global_merge_data, 
