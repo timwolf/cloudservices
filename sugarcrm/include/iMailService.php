@@ -14,9 +14,7 @@
 
 $base_dir = dirname(__FILE__) . "/../";
 
-require_once $base_dir . 'util/common.php';
-require_once $base_dir . 'util/commonsql.php';
-require_once $base_dir . 'util/util.php';
+require_once $base_dir . 'util/utils.php';
 require_once $base_dir . 'model/MailServiceSendParameters.php';
 
 
@@ -31,8 +29,16 @@ interface IMailService
     /**
      * @abstract
      * @access public
+     * @param string $api_user required
+     * @param string $api_pass required
+     */
+    function setServiceAccountInfo($api_user, $api_pass);
+
+    /**
+     * @abstract
+     * @access public
+     * @param string $customer_id required
      * @param MailServiceSendParameters $sendParams required
      */
-    public function send(MailServiceSendParameters $sendParams);
-
+    function send($customer_id, MailServiceSendParameters $sendParams);
 }

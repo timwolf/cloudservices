@@ -14,18 +14,16 @@
 
 $debug = false;
 $trace = false;
-$once  = false;
-
-define('MAIL_SERVICE_VENDOR', 'Mandrill'); // 'Mandrill', 'Sendgrid' ....
+$once  = true;
 
 $GLOBALS['logger_file_name'] = "sugarcron.log";
 
 $sugarcrm_rootdir = dirname(__FILE__) . '/../';
 
-require_once($sugarcrm_rootdir . "util/common.php");
 require_once($sugarcrm_rootdir . "util/commonsql.php");
-require_once($sugarcrm_rootdir . "util/util.php");
+require_once($sugarcrm_rootdir . "util/utils.php");
 require_once($sugarcrm_rootdir . "util/SugarLogger.php");
+require_once($sugarcrm_rootdir . "util/Config.php");
 
 require_once($sugarcrm_rootdir . "model/JobQueue.php");
 require_once($sugarcrm_rootdir . "model/JobTask.php");
@@ -37,7 +35,8 @@ if (empty($db)) {
     exit;
 }
 
-$mailServiceClass = MAIL_SERVICE_VENDOR . 'MailService';
+$mailProvider = Config::getEmailServiceProvider();
+$mailServiceClass = $mailProvider['provider_name'] . 'MailService';
 $mailServiceFile = $sugarcrm_rootdir . 'include/' . $mailServiceClass . '.php';
 if (file_exists($mailServiceFile)) {
     include_once($mailServiceFile);
@@ -68,8 +67,10 @@ while (true) {
     if (!empty($task)) {
 
         $mailService = new $mailServiceClass();
+        $mailService->setServiceAccountInfo($mailProvider['account_id'], $mailProvider['account_password']);
+
         $sendParams = MailServiceSendParameters::fromArray($task->data);
-        $response = $mailService->send($sendParams);
+        $response = $mailService->send($task->cust_id, $sendParams);
 
         if (true || $trace) {
             $msg = sprintf(

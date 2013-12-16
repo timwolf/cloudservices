@@ -21,18 +21,20 @@ SendGrid::register_autoloader();
 
 class SendgridMailService implements iMailService
 {
-    private static $account_user = 'twolf';
-    private static $account_pass = 'tjw998468';
+    protected $service_account_user;
+    protected $service_account_pass;
 
-    function __construct() {
-
+    public function setServiceAccountInfo($service_account_user, $service_account_pass)
+    {
+        $this->service_account_user = $service_account_user;
+        $this->service_account_pass = $service_account_pass;
     }
 
-    public function send(MailServiceSendParameters $sendParams) {
+    public function send($customer_id, MailServiceSendParameters $sendParams) {
         $attachments = array();
         $exception = null;
 
-        $sendgrid = new SendGrid(self::$account_user, self::$account_pass);
+        $sendgrid = new SendGrid($this->service_account_user, $this->service_account_pass);
 
         $mail = new SendGrid\Email();
 

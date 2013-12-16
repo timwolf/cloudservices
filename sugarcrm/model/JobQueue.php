@@ -28,7 +28,7 @@ class JobQueue
         $this->db = $db;
     }
 
-    public function addQueue($cust_id, $job_id, array $data, $last = true)
+    public function writeQueue($cust_id, $job_id, array $data, $last = true)
     {
         $job = $this->retrieveJob($cust_id, $job_id);
         if (!empty($job)) {

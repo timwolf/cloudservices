@@ -1,8 +1,6 @@
 <?php
-
-require_once("../util/common.php");
 require_once("../util/commonsql.php");
-require_once("../util/util.php");
+require_once("../util/utils.php");
 
 require_once("../model/JobQueue.php");
 require_once("../model/JobTask.php");
